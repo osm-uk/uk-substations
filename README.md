@@ -13,15 +13,15 @@ If you use VS Code or a related IDE the project will build a devcontainer for yo
 Otherwise there is a Docker container and compose file.
 From there, you can go to terminal and python with appropriate requirements will be available
 
-'''python
+```python
 from inspire_polygons import InspirePolygons
 polygons = InspirePolygons()
 print(polygons.published_date)
-'''
+```
 
 Then you could either get every council in England and Wales in one go, which may take overnight depending on your download speed and memory,
 or refer to a single county and the data will be downloaded and converted to parquet on demand.
 
-'''python
+```python
 polygons.sql("SELECT ST_Area(geometry) as area, st_transform(geometry, 'EPSG:27700', 'EPSG:4326', always_xy := true) FROM 'Wiltshire_Council' WHERE area > 12 and area < 15 LIMIT 5")
-'''
+```
