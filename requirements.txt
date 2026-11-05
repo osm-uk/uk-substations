@@ -1,4 +1,4 @@
 beautifulsoup4
+python-dateutil
 duckdb
-python-dotenv
 requests
