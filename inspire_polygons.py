@@ -73,3 +73,9 @@ class InspirePolygons:
             date = dateutil.parser.parse(date_str)
             return datetime.strftime(date, '%Y%m%d')
         return
+
+    def sql(self, select):
+        local_authority = re.findall(r"FROM '(.*)'", select)[0]
+        parquet = self.parquet(local_authority)
+        select = re.sub(r"FROM '(.*)'", f"FROM '{parquet}'", select)
+        print(self.con.sql(select))

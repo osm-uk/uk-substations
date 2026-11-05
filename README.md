@@ -23,8 +23,5 @@ Then you could either get every council in England and Wales in one go, which ma
 or refer to a single county and the data will be downloaded and converted to parquet on demand.
 
 '''python
-parquet_path = polygons.parquet('Wiltshire_Council')
-import duckdb
-duckdb.sql("INSTALL spatial; LOAD spatial;")
-duckdb.sql(f"SELECT ST_Area(geometry) as area, st_transform(geometry, 'EPSG:27700', 'EPSG:4326', always_xy := true) FROM '{parquet_path}' WHERE area > 12 and area < 15 LIMIT 5")
+polygons.sql("SELECT ST_Area(geometry) as area, st_transform(geometry, 'EPSG:27700', 'EPSG:4326', always_xy := true) FROM 'Wiltshire_Council' WHERE area > 12 and area < 15 LIMIT 5")
 '''
