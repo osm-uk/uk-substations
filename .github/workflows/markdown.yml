@@ -1,0 +1,12 @@
+name: Lint markdown
+on: [push, pull_request, workflow_dispatch]
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Git repository
+        uses: actions/checkout@v7
+      - name: Lint
+        uses: DavidAnson/markdownlint-cli2-action@v24.2.0
+        with:
+          globs: '**/*.md'

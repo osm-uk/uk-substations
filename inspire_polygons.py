@@ -7,7 +7,6 @@ import os
 import requests
 import re
 
-from overture import con
 
 class InspirePolygons:
     root = 'https://use-land-property-data.service.gov.uk/datasets/inspire/download'
@@ -56,9 +55,14 @@ class InspirePolygons:
 
         vsizip = f'/vsizip/{filename}/Land_Registry_Cadastral_Parcels.gml'
         print(f'converting gml from {vsizip} to {out_path}')
+        selector = f"""
+            SELECT
+                *,
+                ST_Transform(geometry, 'EPSG:27700', 'OGC:CRS84', always_xy := true) as crs84_geometry
+            FROM ST_Read('{vsizip}')
+        """
         self.con.execute(f"""
-            COPY (SELECT *, ST_Transform(geometry, 'EPSG:27700', 'OGC:CRS84', always_xy := true) as crs84_geometry FROM ST_Read('{vsizip}'))
-            TO '{out_path}' (FORMAT parquet, COMPRESSION zstd)
+            COPY ({selector}')) TO '{out_path}' (FORMAT parquet, COMPRESSION zstd)
         """)
         # quick check
         duckdb.sql(f"SELECT * FROM '{out_path}' LIMIT 5")
@@ -99,7 +103,6 @@ class InspirePolygons:
             WHERE square_metres > 12
               AND square_metres < 90
         """))
-
 
     def substation_sized_parcels(self, local_authority):
         print(self.con.sql(f"""
