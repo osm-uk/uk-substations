@@ -2,12 +2,17 @@
 
 Locate potential local electricity substations in the UK
 
-# description
+## description
 
 Jez posits that substations mostly have their own small often square-ish cadastral parcel.
 This code builds an environment to query UK cadastral parcel data via DuckDB to try to prove/disprove this assertion.
 
-# usage
+A common pattern for OSM is a fence around a small square plot with a substation node inside it.
+The nearby parcels containing semi-detached houses are much larger and rectangular.
+There are some anomolies where a house cadastral parcels are combined into a single housing plot.
+An outlier is a substation on university campus of industrial estate where the parcel will be huge.
+
+## usage
 
 If you use VS Code or a related IDE the project will build a devcontainer for you.
 Otherwise there is a Docker container and compose file.
